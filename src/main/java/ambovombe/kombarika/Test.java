@@ -7,6 +7,8 @@ package ambovombe.kombarika;
 import ambovombe.kombarika.generator.CodeGenerator;
 import ambovombe.kombarika.generator.service.DbService;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.HashMap;
 /**
@@ -24,13 +26,14 @@ public class Test {
         CodeGenerator codeGenerator = new CodeGenerator();
         String path = "./";
         String framework = "java:spring-boot";
-        String packageName = "com.voyage.test";
+        String packageName = "com.generated.project";
         String entity = "entity";
         String controller = "controller";
         String repository = "repository";
         String view = "view";
         String viewType = "angular-ionic";
         String url = "http://localhost:8080/";
+        String cheminFichier = "I:\\Scaffolding\\generate.bat";
         try{
             // String[] tables = {"district","region"};
             // DbConnection dbConnection = codeGenerator.getDbConnection();
@@ -42,10 +45,9 @@ public class Test {
             //     System.out.println(set.getKey() + " " + set.getValue());
             // }
             String[] tables = DbService.getAllTablesArrays(codeGenerator.getDbConnection());
-            // for(String table: tables)
-            //     System.out.println(table);
-            codeGenerator.generateAll(path, packageName, entity, controller, repository, view, viewType, url, tables, framework);
-            // codeGenerator.generateEntity(path, "car", packageName+".entity", framework);
+            for(String table: tables)
+                 System.out.println(table);
+            codeGenerator.generateAll(path, packageName, entity, controller, repository, view, viewType, url, tables, framework, cheminFichier);
         }catch(Exception e){
             e.printStackTrace();
         }finally{

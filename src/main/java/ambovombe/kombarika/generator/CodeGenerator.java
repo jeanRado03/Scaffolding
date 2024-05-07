@@ -16,6 +16,7 @@ import ambovombe.kombarika.generator.service.controller.Controller;
 import ambovombe.kombarika.generator.service.entity.Entity;
 import ambovombe.kombarika.generator.service.repository.Repository;
 import ambovombe.kombarika.generator.service.view.View;
+import ambovombe.kombarika.generator.utils.CommandLineExecutor;
 import ambovombe.kombarika.generator.utils.ObjectUtility;
 import lombok.Getter;
 import lombok.Setter;
@@ -166,8 +167,9 @@ public class CodeGenerator {
         String view = buildView(table, viewType, url);
         FileUtility.createDirectory(directory,path);
         path = path + File.separator + directory;
-        String fileName = GeneratorService.getFileName(table, this.getViewDetails().getViews().get(viewType).getExtension());
+        String fileName = GeneratorService.getViewName(table, this.getViewDetails().getViews().get(viewType).getExtension());
         FileUtility.generateFile(path, fileName, view);
+        //CommandLineExecutor.addIonicPage(ObjectUtility.renommerString(table));
     }
 
     /**
@@ -300,11 +302,14 @@ public class CodeGenerator {
         String viewType,
         String url,
         String[] tables, 
-        String framework
+        String framework,
+        String filePath
     ) throws Exception{
         generateAllEntity(path, tables, packageName ,entity, framework);
         generateAllRepository(path, tables, packageName , entity, repository, framework);
         generateAllController(path, tables, packageName, entity, controller, repository, framework);  
-        generateAllView(path, tables, view, viewType, url);    
+        generateAllView(path, tables, view, viewType, url);
+        //CommandLineExecutor.copySrc(filePath);
+        //CommandLineExecutor.addIonicPage(tables);
     }
 }

@@ -62,7 +62,7 @@ public class Controller{
         String body = "";   
         String args = "";
         args += this.getLanguageProperties().getAnnotationSyntax().replace("?", this.getControllerProperty().getAnnotationArgumentParameterLink()) + " "
-                + ObjectUtility.capitalize("string") + " "
+                + "int" + " "
                 + ObjectUtility.formatToCamelCase("id");
         body += Misc.tabulate(this.getCrudMethod().getDelete()
             .replace("#object#", ObjectUtility.formatToCamelCase(table))
@@ -77,27 +77,46 @@ public class Controller{
 
     public String findAll(String table){
         String body = "";
+        String args = "";
+        args += this.getLanguageProperties().getAnnotationSyntax().replace("?", this.getControllerProperty().getAnnotationArgumentParameterLink()) + " "
+                + "int" + " "
+                + ObjectUtility.formatToCamelCase("page");
         body += Misc.tabulate(this.getCrudMethod().getFindAll()
             .replace("#object#", ObjectUtility.formatToCamelCase(table))
             .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))));
         String function =  this.getLanguageProperties().getMethodSyntax()
                 .replace("#name#", "findAll")
                 .replace("#type#", this.getControllerProperty().getReturnType().replace("?", this.getLanguageProperties().getListSyntax().replace("?",ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)))))
-                .replace("#arg#", "")
+                .replace("#arg#", args)
                 .replace("#body#", body);
         return Misc.tabulate(this.getLanguageProperties().getAnnotationSyntax().replace("?", this.getControllerProperty().getGet()) + "\n" + function);
     }
 
     public String findById(String table) throws Exception{
-        String res = "";
-        return res;
+        String body = "";
+        String args = "";
+        args += this.getLanguageProperties().getAnnotationSyntax().replace("?", this.getControllerProperty().getAnnotationArgumentParameterLink()) + " "
+                + "int" + " "
+                + ObjectUtility.formatToCamelCase("page");
+        body += Misc.tabulate(this.getCrudMethod().getFindById()
+                .replace("#object#", ObjectUtility.formatToCamelCase(table))
+                .replace("#Id#", "page")
+                .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))));
+        String function =  this.getLanguageProperties().getMethodSyntax()
+                .replace("#name#", "findById")
+                .replace("#type#", this.getControllerProperty().getReturnType().replace("?", this.getLanguageProperties().getListSyntax().replace("?",ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)))))
+                .replace("#arg#", args)
+                .replace("#body#", body);
+        return Misc.tabulate(this.getLanguageProperties().getAnnotationSyntax().replace("?", this.getControllerProperty().getGet()) + "\n" + function);
     }
+
     public String getCrudMethods(String table) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         String save = save(table);
         String findAll = findAll(table);
         String update = update(table);
         String delete = delete(table);
+        String findById = findById(table);
         stringBuilder.append(save);
         stringBuilder.append("\n");
         stringBuilder.append(update);
@@ -105,6 +124,8 @@ public class Controller{
         stringBuilder.append(delete);
         stringBuilder.append("\n");
         stringBuilder.append(findAll);
+        stringBuilder.append("\n");
+        stringBuilder.append(findById);
         return stringBuilder.toString();
     }
 
@@ -142,7 +163,8 @@ public class Controller{
             item = item
             .replace("packageName", repository)
             .replace("className", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)))
-            .replace("entity", entity);
+            .replace("entity", entity)
+                    .replace("pagination", "com.generated.project.pagination");
             res += imp+ " " + item + "" + this.getLanguageProperties().getEndOfInstruction() + "\n";
         }
         return res;

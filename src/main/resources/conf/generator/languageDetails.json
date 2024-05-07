@@ -108,6 +108,7 @@
                         "controller":[
                             "packageName.classNameRepository",
                             "entity.className",
+                            "pagination.*",
                             "org.springframework.http.*",
                             "org.springframework.beans.factory.annotation.Autowired",
                             "org.springframework.web.bind.annotation.*"
@@ -139,21 +140,21 @@
                         }
                     },
                     "crudMethod" : {
-                        "findAll": "return ResponseEntity.ok(repository.findAll());",
+                        "findAll": "Iterable<?> data = repository.findAll();\n\t\tPagination pagination = new Pagination(data,page);\n\t\treturn ResponseEntity.ok(pagination.getPagination());",
                         "findById":"return ResponseEntity.ok(repository.findById(#Id#));",
-                        "delete": "repository.deleteById(id);\nreturn ResponseEntity.ok(repository.findAll());",
+                        "delete": "repository.deleteById(id);\n\t\tPagination pagination = new Pagination(repository.findAll(), 1);\n\t\treturn ResponseEntity.ok(pagination.getPagination());",
                         "update": "return ResponseEntity.ok(repository.save(#object#));",
                         "save": "return ResponseEntity.ok(repository.save(#object#));"
                     },
                     "controllerProperty" : {
                         "path": "RequestMapping(path = \"?\")",
-                        "get": "GetMapping()",
+                        "get": "GetMapping(\"/{page}\")",
                         "post": "PostMapping()",
                         "put": "PutMapping()",
                         "delete": "DeleteMapping(\"/{id}\")",
                         "classSyntax": "?Controller",
                         "field": "private ?Repository repository;",
-                        "returnType": "ResponseEntity<?>",
+                        "returnType": "ResponseEntity<Object>",
                         "annotationField": "Autowired",
                         "annotationMethodParameter":"",
                         "annotationArgumentParameterFormData":"RequestBody",

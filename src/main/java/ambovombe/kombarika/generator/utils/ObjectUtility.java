@@ -55,6 +55,12 @@ public class ObjectUtility {
         return res;
     }
 
+    public static String renommerString(String chaine) {
+        if(chaine.contains("_"))
+            return chaine.replace('_', '-');
+        return chaine;
+    }
+
     public static String fillZero(int length, int prefixLength, String num){ //Fill the zero Before the number
         int lim = (length - prefixLength) - num.length();
         String zero = ""+0;

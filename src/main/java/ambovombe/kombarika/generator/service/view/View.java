@@ -30,7 +30,8 @@ public class View {
                         .replace("#path#", ObjectUtility.formatToCamelCase(temp))
                         .replace("#label#", temp)
                         .replace("#id#", ObjectUtility.formatToCamelCase(id))
-                        .replace("#attribute#", ObjectUtility.formatToCamelCase(attribute));
+                        .replace("#attribute#", ObjectUtility.formatToCamelCase(attribute))
+                            .replace("#values#", ObjectUtility.formatToCamelCase(foreignKeys.get(set.getKey())) + "." + ObjectUtility.formatToCamelCase(id));
                     option = Misc.tabulate(Misc.tabulate(option));
                     res += this.getViewProperties().getSelect()
                     .replace("#name#", ObjectUtility.formatToCamelCase(temp))
@@ -59,6 +60,7 @@ public class View {
                 .replace("#label#", ObjectUtility.formatToCamelCase(set.getValue()))
                 .replace("#id#", ObjectUtility.formatToCamelCase(id))                
                 .replace("#attribute#", ObjectUtility.formatToCamelCase(attribute))
+                    .replace("#values#", ObjectUtility.formatToCamelCase(foreignKeys.get(set.getKey())) + "." + ObjectUtility.formatToCamelCase(id))
                 ;
             res += "\n";
         }
@@ -202,7 +204,17 @@ public class View {
         String path =  ObjectUtility.formatToCamelCase(table);
         HashMap<String, String> columns = DbService.getDetailsColumn(dbConnection.getConnection(), table);
         HashMap<String, String> foreignKeys = DbService.getForeignKeys(dbConnection, table);
+        /*for (Map.Entry<String, String> entry : foreignKeys.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println("Foreign keys : "+table+". Clé : " + key + ", Valeur : " + value);
+        }*/
         HashMap<String, String> idAndAttribute = this.getIdAndAttribute(dbConnection, foreignKeys);
+        /*for (Map.Entry<String, String> entry : idAndAttribute.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println("Table  : "+table+". Clé : " + key + ", Valeur : " + value);
+        }*/
         String id = idAndAttribute.get("id");
         String attribute = idAndAttribute.get("attribute");
         res = template.replace("#header#", getHeaders( columns))
@@ -213,7 +225,7 @@ public class View {
         .replace("#getValues#", getFetcher(columns, foreignKeys, table))
         .replace("#values#", getValues(columns, foreignKeys, table))
         .replace("#entity#", ObjectUtility.formatToSpacedString(table))
-        .replace("#tableValue#", getTableValue(columns, foreignKeys, attribute))
+        .replace("#tableValue#", getTableValue(columns, foreignKeys, id))
         .replace("#url#", url)
         .replace("#id#", ObjectUtility.formatToCamelCase(primaryKeys.get(0)))
         .replace("#path#", path)

@@ -74,6 +74,7 @@ public class FileUtility {
     public static void createFile(String path, String fileName) throws Exception{
         String separator = File.separator;
         path = path + separator + fileName;
+        System.out.println("Nom fichier : "+fileName);
         File file = new File(path);
         System.out.println(file.getPath() + " created");
     }

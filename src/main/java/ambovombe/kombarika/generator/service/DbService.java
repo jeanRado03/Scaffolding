@@ -143,8 +143,10 @@ public class DbService {
         query = query.replace("?", tableName);
         PreparedStatement stmt = dbConnection.getConnection().prepareCall(query);
         ResultSet rs = stmt.executeQuery();
-        while (rs.next())
+        while (rs.next()) {
+            //System.out.println("col : "+rs.getString(1));
             listPrimaryKeys.add(rs.getString(1));
+        }
         return listPrimaryKeys;
     }
 

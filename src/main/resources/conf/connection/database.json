@@ -2,7 +2,7 @@
     "defaultConnection" : "DefaultConnection",
     "listConnection": {
         "DefaultConnection": {
-            "datasource":"jdbc:postgresql://localhost:5432/soavoyage",
+            "datasource":"jdbc:postgresql://localhost:5432/dvdrental",
             "username":"postgres",
             "password":"1413",
             "databaseType":"POSTGRESQL"

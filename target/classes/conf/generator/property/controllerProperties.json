@@ -7,7 +7,7 @@
             "put": "PutMapping()",
             "delete": "DeleteMapping()",
             "field": "private ?Repository repository;",
-            "returnType": "ResponseEntity<?>",
+            "returnType": "ResponseEntity<Object>",
             "annotationField": "Autowired",
             "annotationMethodParameter":"",
             "annotationArgumentParameterFormData":"RequestParam",

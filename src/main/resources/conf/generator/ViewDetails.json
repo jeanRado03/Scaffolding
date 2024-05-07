@@ -63,12 +63,12 @@
             }
         },
         "angular-ionic":{
-            "inputInsert":"",
-            "inputUpdate":"",
-            "select":"",
-            "selectUpdate":"",
-            "option":"",
-            "optionUpdate":"",
+            "inputInsert":"<label className=\"form-label\">#name#</label>\n\t \t<input type=\"#type#\" placeholder=\"#name#\" name=\"#name#\" [(ngModel)]=\"formData.#name#\"/><br/>",
+            "inputUpdate":"<label className=\"form-label\">#name#</label>\n\t \t<input type=\"#type#\" placeholder=\"#name#\" name=\"#name#\" [(ngModel)]=\"updateData.#name#\"/><br/>",
+            "select":"<label className=\"form-label\">#name#</label> \n\t \t<select name=\"#name#\" [(ngModel)]=\"formData.#name#\" (ngModelChange)=\"updateSelectedOption($event)\">\n#option#\n\t</select>\n",
+            "selectUpdate":"<label className=\"form-label\">#name#</label> \n\t \t<select name=\"#name#\" [(ngModel)]=\"formData.#name#\" (ngModelChange)=\"updateSelectedOption($event)\">\n#optionUpdate#\n\t</select>\n",
+            "option":"<option *ngFor=\"let option of foreignkey\" [ngValue]=\"option\">{{ option.name }}</option>",
+            "optionUpdate":"<option *ngFor=\"let option of foreignkey\" [ngValue]=\"option\">{{ option.name }}</option>",
             "tableHeader":"\t<th> #label# </th>",
             "template":"angularionic/AngularIonicTemplate.txt",
             "handleInputChange":"",

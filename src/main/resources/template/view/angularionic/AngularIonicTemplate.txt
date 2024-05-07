@@ -2,8 +2,9 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
+      <ion-title>{{ folder }}</ion-title>
     </ion-buttons>
-    <ion-title>{{ folder }}</ion-title>
+    <ion-button slot="start" color="primary" (click)="loginOut()">Log Out</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +14,6 @@
       <ion-title size="large">{{ folder }}</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-button (click)="afficherFormulaire = !afficherFormulaire">Add #entity#</ion-button>
   <table *ngIf="!afficherFormulaire && !updateFormulaire">
     <thead>
       <tr>
@@ -23,16 +23,29 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of #path#">
+      <tr *ngFor="let item of object">
         #tableValue#
         <td><ion-button color="primary" (click)="showUpdate(item)">Update</ion-button></td>
         <td><ion-button color="danger" (click)="deleteItem(item)">Delete</ion-button></td>
       </tr>
     </tbody>
+    <div style="display: flex;">
+                  <ion-button (click)="loadForeignKey()">Add Inventory</ion-button>
+                  <div *ngIf="currentPage !== 1">
+                    <ion-button color="secondary" (click)="functionPervious()">Prev..</ion-button>
+                  </div>
+                    <div *ngFor="let page of pages">
+                      <ion-button color="secondary" *ngIf="totalPages !== 1" (click)="goToPage(page+1)">{{ page + 1 }}</ion-button>
+                    </div>
+                  <div *ngIf="currentPage !== totalPages">
+                    <ion-button color="secondary" (click)="functionNext()">Next..</ion-button>
+                  </div>
+                </div>
   </table>
   <form *ngIf="afficherFormulaire" (ngSubmit)="submitForm()" #myForm="ngForm">
     #inputInsert#
-    <ion-button type="submit">Save</ion-button>
+    <ion-button type="submit">Save</ion-button><br/>
+    <ion-button (click)="afficherFormulaire = !afficherFormulaire">Back</ion-button>
   </form>
   <form *ngIf="updateFormulaire" (ngSubmit)="updateItem()" #myForm="ngForm">
     #inputUpdate#
@@ -40,13 +53,3 @@
     <ion-button (click)="updateFormulaire = !updateFormulaire">Back</ion-button>
   </form>
 </ion-content>
-<!--<ion-item>
-    #url#
-    #id#
-    #values#
-    #handleInputSelectChange#
-    #getValues#
-    #optionUpdate#
-    #getValues#
-    #label#
-</ion-item>-->

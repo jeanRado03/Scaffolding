@@ -13,4 +13,8 @@ public class GeneratorService {
         return ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)).concat("." + extension);
     }
 
+    public static String getViewName(String table, String extension){
+        return ObjectUtility.renommerString(table).concat("." + extension);
+    }
+
 }
